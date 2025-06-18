@@ -11,10 +11,10 @@ module.exports = async (req, res) => {
         console.log("API Key check:", process.env.XAI_API_KEY ? "Valid" : "Missing");
         const response = await axios.post('https://api.x.ai/v1/chat/completions', {
             messages: [
-                { role: "system", content: "You are a concise assistant. Only respond with the exact answer to the user's prompt and nothing else." },
+                { role: "system", content: "You are a test assistant." },
                 { role: "user", content: prompt }
             ],
-            model: "grok-3",
+            model: "grok-3-latest",
             stream: false,
             temperature: 0
         }, {
