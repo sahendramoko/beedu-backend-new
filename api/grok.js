@@ -1,4 +1,5 @@
 const axios = require('axios');
+const getRawBody = require('raw-body');
 
 module.exports = async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "https://beedu-six.vercel.app");
@@ -14,10 +15,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    let body = req.body;
-    if (typeof body === 'string') {
-      body = JSON.parse(body);
-    }
+    const raw = await getRawBody(req);
+    const body = JSON.parse(raw.toString());
 
     const { prompt } = body || {};
     if (!prompt) {
@@ -41,6 +40,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json(response.data);
   } catch (err) {
+    console.error("ERROR:", err.message);
     res.status(500).json({ error: err.message || "Internal Server Error" });
   }
 };
