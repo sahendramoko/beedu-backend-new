@@ -9,7 +9,15 @@ module.exports = async (req, res) => {
     }
     try {
         console.log("API Key check:", process.env.XAI_API_KEY ? "Valid" : "Missing");
-        const response = await axios.post('https://api.x.ai/v1/grok', { prompt }, {
+        const response = await axios.post('https://api.x.ai/v1/chat/completions', {
+            messages: [
+                { role: "system", content: "You are a test assistant." },
+                { role: "user", content: prompt }
+            ],
+            model: "grok-3-latest",
+            stream: false,
+            temperature: 0
+        }, {
             headers: {
                 'Authorization': `Bearer ${process.env.XAI_API_KEY}`,
                 'Content-Type': 'application/json'
