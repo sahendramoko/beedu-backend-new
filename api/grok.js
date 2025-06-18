@@ -1,8 +1,12 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
+    // Pastikan req.body ada
+    if (!req.body || typeof req.body !== 'object') {
+        return res.status(400).json({ error: "Invalid request body" });
+    }
     console.log("Request received:", req.body);
-    const { prompt } = req.body;
+    const { prompt } = req.body; // Destruktur setelah memastikan req.body ada
     if (!prompt) {
         console.log("Error: Prompt is missing");
         return res.status(400).json({ error: "Prompt is required" });
