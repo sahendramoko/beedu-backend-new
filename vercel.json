@@ -34,5 +34,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/grok.js": {
+      "runtime": "@vercel/node"
+    }
+  }
 }
