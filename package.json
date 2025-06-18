@@ -1,8 +1,10 @@
 {
   "name": "beedu-backend-new",
   "version": "1.0.0",
+  "type": "commonjs",
   "dependencies": {
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "raw-body": "^2.5.2"
   },
   "scripts": {
     "start": "node api/grok.js"
