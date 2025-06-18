@@ -1,13 +1,13 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  // Tambahkan header CORS agar preflight OPTIONS dan POST diizinkan
+  // ✨ Tambahkan CORS headers sebelum yang lain
   res.setHeader("Access-Control-Allow-Origin", "https://beedu-six.vercel.app");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Max-Age", "86400");
 
-  // Tangani preflight request (OPTIONS)
+  // 🛑 Tangani preflight request SEBELUM destructuring apapun
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -16,7 +16,11 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
 
-  let body = req.body || {};
+  // ✅ Tangani kemungkinan body kosong / bukan JSON
+  let body = req.body;
+  if (!body) {
+    return res.status(400).json({ error: "Request body is missing." });
+  }
   if (typeof body === 'string') {
     try {
       body = JSON.parse(body);
@@ -48,7 +52,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json(response.data);
   } catch (error) {
-    console.error("Error occurred:", error.message);
+    console.error("Grok API error:", error.message);
     res.status(500).json({ error: error.message });
   }
 };
