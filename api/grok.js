@@ -1,11 +1,17 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-    if (!req.body || typeof req.body !== 'object') {
-        return res.status(400).json({ error: "Invalid request body" });
+    // Pastikan req.body ada dan parsing manual jika perlu
+    let body = req.body || {};
+    if (typeof body === 'string') {
+        try {
+            body = JSON.parse(body);
+        } catch (e) {
+            return res.status(400).json({ error: "Invalid JSON body" });
+        }
     }
-    console.log("Request received:", req.body);
-    const { prompt } = req.body;
+    console.log("Request received:", body);
+    const { prompt } = body;
     if (!prompt) {
         console.log("Error: Prompt is missing");
         return res.status(400).json({ error: "Prompt is required" });
