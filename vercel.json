@@ -1,15 +1,34 @@
 {
-    "version": 2,
-    "builds": [
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/grok.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/grok",
+      "dest": "api/grok.js"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/grok",
+      "headers": [
         {
-            "src": "api/grok.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://sahendramoko.github.io"
+        },
         {
-            "src": "/api/grok",
-            "dest": "api/grok.js"
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
         }
-    ]
+      ]
+    }
+  ]
 }
