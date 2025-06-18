@@ -1,11 +1,15 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-    console.log("Method:", req.method);
-    console.log("Headers:", req.headers);
+    // Tambahkan header CORS untuk semua request
+    res.setHeader("Access-Control-Allow-Origin", "https://beedu-six.vercel.app");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Max-Age", "86400");
 
+    // Tangani preflight request
     if (req.method === 'OPTIONS') {
-        return res.status(200).end(); // Preflight CORS
+        return res.status(200).end();
     }
 
     if (req.method !== 'POST') {
@@ -20,8 +24,6 @@ module.exports = async (req, res) => {
             return res.status(400).json({ error: "Invalid JSON body" });
         }
     }
-
-    console.log("Request received:", body);
 
     const { prompt } = body;
     if (!prompt) {
@@ -46,7 +48,6 @@ module.exports = async (req, res) => {
 
         res.status(200).json(response.data);
     } catch (error) {
-        console.error("Error occurred:", error.message);
         res.status(500).json({ error: error.message });
     }
 };
